@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/core/widgets/app_button.dart';
+import 'package:habit_tracker/features/home/views/home_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -34,7 +35,15 @@ class WelcomeScreen extends StatelessWidget {
               //   style: TextStyle(color: AppColors.textLight, fontSize: 16),
               // ),
               const SizedBox(height: 20),
-              AppButton(label: 'Get Started', onPressed: () {}),
+              AppButton(
+                label: 'Get Started',
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  );
+                },
+              ),
               const SizedBox(height: 20),
               const Text(
                 'I have an account',
