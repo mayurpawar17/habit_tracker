@@ -13,4 +13,14 @@ class AppColors {
   static const pink = Color(0xFFF48FB1);
   static const blue = Color(0xFF90CAF9);
   static const lightGrey = Color(0xFFF4F4F4);
+
+  ///Light theme colors
+  static const Color lightBackground = Color(0xFFf6f6f8);
+  static const Color lightSecondary = Color(0xFFFFFFFF);
+  static const Color lightCard = Color(0xFFf6f6f8);
+
+  static const card = Colors.white;
+  static const border = Color(0xFFE4E7F2);
+  static const textPrimary = Color(0xFF1A1D2E);
+  static const textSecondary = Color(0xFF7A7F9A);
 }

@@ -1,23 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/core/widgets/common_app_bar.dart';
-
-////////////////////////////////////////////////////////////
-/// COLORS (Light Theme)
-////////////////////////////////////////////////////////////
-
-class AppColors {
-  static const primary = Color(0xFF5B5FEF);
-  static const background = Color(0xFFF8F9FF);
-  static const card = Colors.white;
-  static const border = Color(0xFFE4E7F2);
-  static const textPrimary = Color(0xFF1A1D2E);
-  static const textSecondary = Color(0xFF7A7F9A);
-}
-
-////////////////////////////////////////////////////////////
-/// SCREEN
-////////////////////////////////////////////////////////////
 
 class AddHabitLightScreen extends StatefulWidget {
   const AddHabitLightScreen({super.key});
@@ -38,7 +22,7 @@ class _AddHabitLightScreenState extends State<AddHabitLightScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.lightBackground,
       appBar: CommonAppBar(title: "Add New Habit"),
       body: SafeArea(
         child: SingleChildScrollView(

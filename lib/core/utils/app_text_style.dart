@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/core/theme/app_colors.dart';
+
+import '../theme/app_colors.dart';
 
 class AppTextStyle {
   static const TextStyle heading = TextStyle(
@@ -7,7 +8,11 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
     color: AppColors.textDark,
   );
-
+  static const TextStyle heading2 = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textDark,
+  );
   static const TextStyle body = TextStyle(
     fontSize: 16,
     color: AppColors.textDark,

@@ -1,0 +1,267 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:habit_tracker/features/add_habit/views/add_habit_screen.dart';
+
+import '../../../core/theme/app_colors.dart';
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.lightBackground,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: const [
+              //     Icon(Icons.arrow_back, size: 24),
+              //     Text(
+              //       "Profile",
+              //       style: TextStyle(
+              //         fontSize: 20,
+              //         fontWeight: FontWeight.w600,
+              //       ),
+              //     ),
+              //     Icon(Icons.settings, size: 24),
+              //   ],
+              // ),
+              const SizedBox(height: 30),
+
+              ////////////////////////////////////////////////////////////
+              /// PROFILE IMAGE
+              ////////////////////////////////////////////////////////////
+              Center(
+                child: Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 4),
+                      ),
+                      child: const CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage(
+                          "https://i.pravatar.cc/300",
+                        ),
+                      ),
+                    ),
+
+                    /// Edit Button
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 38,
+                        width: 38,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2F6BFF),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 3),
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              ////////////////////////////////////////////////////////////
+              /// NAME & EMAIL
+              ////////////////////////////////////////////////////////////
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "John Doe",
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      "john.doe@example.com",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 35),
+
+              ////////////////////////////////////////////////////////////
+              /// ACCOUNT SECTION
+              ////////////////////////////////////////////////////////////
+              sectionTitle("ACCOUNT"),
+              const SizedBox(height: 15),
+
+              profileTile(icon: Icons.person, title: "Edit Profile"),
+
+              const SizedBox(height: 15),
+
+              profileTile(icon: Icons.history, title: "My Activity"),
+
+              const SizedBox(height: 30),
+
+              ////////////////////////////////////////////////////////////
+              /// SYSTEM SECTION
+              ////////////////////////////////////////////////////////////
+              sectionTitle("SYSTEM"),
+              const SizedBox(height: 15),
+
+              profileTile(
+                icon: Icons.tune,
+                title: "App Settings",
+                subtitle: "Notifications, Privacy",
+              ),
+
+              const SizedBox(height: 15),
+
+              profileTile(icon: Icons.help_outline, title: "Help & Support"),
+
+              const SizedBox(height: 25),
+
+              ////////////////////////////////////////////////////////////
+              /// LOGOUT
+              ////////////////////////////////////////////////////////////
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 18,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF1F1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Row(
+                      children: [
+                        Icon(Icons.logout, color: Colors.red),
+                        SizedBox(width: 12),
+                        Text(
+                          "Log Out",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Colors.redAccent,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ////////////////////////////////////////////////////////////
+  /// SECTION TITLE
+  ////////////////////////////////////////////////////////////
+
+  Widget sectionTitle(String title) {
+    return Text(
+      title,
+      style: GoogleFonts.poppins(
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 1.2,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  ////////////////////////////////////////////////////////////
+  /// PROFILE TILE
+  ////////////////////////////////////////////////////////////
+
+  Widget profileTile({
+    required IconData icon,
+    required String title,
+    String? subtitle,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 10,
+            offset: Offset(0, 6),
+            color: Colors.black12,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 42,
+                width: 42,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE9EEF9),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: const Color(0xFF2F6BFF)),
+              ),
+              const SizedBox(width: 15),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                  if (subtitle != null)
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        color: Colors.grey,
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+        ],
+      ),
+    );
+  }
+}

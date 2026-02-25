@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/core/theme/app_colors.dart';
-import 'package:habit_tracker/core/utils/app_text_style.dart';
+
+import '../theme/app_colors.dart';
+import '../utils/app_text_style.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -19,16 +20,18 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.lightBackground,
+      foregroundColor: Colors.black,
+      surfaceTintColor: Colors.transparent,
       title: Text(
         title,
-        style: AppTextStyle.heading.copyWith(color: AppColors.textLight),
+        style: AppTextStyle.heading2.copyWith(color: AppColors.textDark),
       ),
       centerTitle: centerTitle,
       elevation: 0,
       leading: showBack
           ? IconButton(
-              icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+              icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
               onPressed: () => Navigator.pop(context),
             )
           : null,
