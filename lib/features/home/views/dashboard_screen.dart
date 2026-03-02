@@ -14,37 +14,34 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.lightBackground,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Good morning,", style: GoogleFonts.poppins(fontSize: 16)),
-              Text(
-                "Mayur",
-                style: GoogleFonts.poppins(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text("Good morning,", style: GoogleFonts.poppins(fontSize: 16)),
+            // Text(
+            //   "Mayur",
+            //   style: GoogleFonts.poppins(
+            //     fontSize: 26,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                itemCount: 15,
+                itemBuilder: (context, index) {
+                  return HabitTile(
+                    title: 'Reading',
+                    icon: Icons.message,
+                    onTap: () {},
+                    backgroundColor: AppColors.primary,
+                    color: Colors.white,
+                  );
+                },
               ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: 15,
-                  itemBuilder: (context, index) {
-                    return HabitTile(
-                      title: 'Reading',
-                      icon: Icons.message,
-                      onTap: () {},
-                      backgroundColor: AppColors.primary,
-                      color: Colors.white,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(

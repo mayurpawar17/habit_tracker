@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:habit_tracker/features/add_habit/views/add_habit_screen.dart';
+import 'package:habit_tracker/features/home/widgets/habit_tile.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../auth/presentaion/bloc/auth_bloc.dart';
+import '../../auth/presentaion/bloc/auth_event.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -142,6 +145,13 @@ class ProfileScreen extends StatelessWidget {
               ////////////////////////////////////////////////////////////
               /// LOGOUT
               ////////////////////////////////////////////////////////////
+              HabitTile(
+                title: "Logout",
+                icon: Icons.logout,
+                onTap: () {
+                  context.read<AuthBloc>().add(LogoutRequested());
+                },
+              ),
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 18,
