@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/core/widgets/app_button.dart';
-import 'package:habit_tracker/features/home/views/home_screen.dart';
-import 'package:habit_tracker/features/home/views/home_screen.dart';
+import 'package:habit_tracker/features/auth/presentaion/screens/register_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -41,7 +40,9 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterScreen(),
+                    ),
                   );
                 },
               ),

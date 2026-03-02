@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/features/add_habit/views/add_habit_screen.dart';
-import 'package:habit_tracker/features/home/views/home_screen.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import 'habit_card.dart';
+import '../widgets/habit_tile.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -29,34 +28,19 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
               Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                  children: [
-                    HabitCard(
-                      color: AppColors.yellow,
-                      title: "Reading",
-                      subtitle: "Read 20 pages",
-                    ),
-                    HabitCard(
-                      color: AppColors.pastelGreen,
-                      title: "Workout",
-                      subtitle: "30 min",
-                    ),
-                    HabitCard(
-                      color: AppColors.blue,
-                      title: "Programming",
-                      subtitle: "Practice",
-                    ),
-                    HabitCard(
-                      color: AppColors.pink,
-                      title: "Finance",
-                      subtitle: "Track expenses",
-                    ),
-                  ],
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: 15,
+                  itemBuilder: (context, index) {
+                    return HabitTile(
+                      title: 'Reading',
+                      icon: Icons.message,
+                      onTap: () {},
+                      backgroundColor: AppColors.primary,
+                      color: Colors.white,
+                    );
+                  },
                 ),
               ),
             ],
@@ -70,7 +54,7 @@ class DashboardScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => AddHabitLightScreen()),
+            MaterialPageRoute(builder: (_) => AddHabitScreen()),
           );
         },
         child: HugeIcon(

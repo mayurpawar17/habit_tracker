@@ -1,0 +1,226 @@
+import 'package:flutter/material.dart';
+import 'package:habit_tracker/features/auth/presentaion/screens/register_screen.dart';
+
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../../../home/views/home_screen.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool _obscurePassword = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                /// App Title
+                Text(
+                  'Habit tracker',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                /// Medical Icon Box
+                // Container(
+                //   padding: const EdgeInsets.all(20),
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(20),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         blurRadius: 20,
+                //         color: Colors.black.withOpacity(0.05),
+                //         offset: const Offset(0, 10),
+                //       ),
+                //     ],
+                //   ),
+                //   child: const Icon(
+                //     Icons.local_hospital_rounded,
+                //     color: Color(0xFF4A90E2),
+                //     size: 40,
+                //   ),
+                // ),
+                //
+                // const SizedBox(height: 30),
+
+                /// Welcome Text
+                const Text(
+                  "Welcome Back",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+
+                const SizedBox(height: 12),
+
+                // const Text(
+                //   "Access your medical records and coordinate with\n"
+                //   "your healthcare team securely.",
+                //   textAlign: TextAlign.center,
+                //   style: TextStyle(fontSize: 15, color: Colors.grey),
+                // ),
+                const SizedBox(height: 40),
+
+                /// Email Label
+
+                /// Email Field
+                AppTextField(
+                  label: 'Email Address',
+                  controller: emailController,
+                  hint: 'name@example.com',
+                ),
+
+                const SizedBox(height: 25),
+
+                /// Password Label
+                // const Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: Text(
+                //     "PASSWORD",
+                //     style: TextStyle(
+                //       fontSize: 12,
+                //       letterSpacing: 1.2,
+                //       fontWeight: FontWeight.w600,
+                //       color: Colors.grey,
+                //     ),
+                //   ),
+                // ),
+                AppTextField(
+                  label: 'Password',
+                  controller: passwordController,
+                  hint: 'Enter password',
+                ),
+
+                const SizedBox(height: 10),
+
+                /// Forgot Password
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Forgot password?",
+                      style: TextStyle(color: Color(0xFF4A90E2)),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                /// Login Button
+                AppButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => HomeScreen()),
+                    );
+                  },
+                  label: 'Login',
+                ),
+                const SizedBox(height: 30),
+
+                /// OR Divider
+                // Row(
+                //   children: const [
+                //     Expanded(child: Divider()),
+                //     Padding(
+                //       padding: EdgeInsets.symmetric(horizontal: 10),
+                //       child: Text("OR"),
+                //     ),
+                //     Expanded(child: Divider()),
+                //   ],
+                // ),
+                //
+                // const SizedBox(height: 25),
+                //
+                // /// Google Button
+                // OutlinedButton.icon(
+                //   onPressed: () {},
+                //   icon: Image.network(
+                //     "https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png",
+                //     height: 20,
+                //   ),
+                //   label: const Text(
+                //     "Continue with Google",
+                //     style: TextStyle(fontSize: 16),
+                //   ),
+                //   style: OutlinedButton.styleFrom(
+                //     minimumSize: const Size(double.infinity, 55),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(30),
+                //     ),
+                //   ),
+                // ),
+                //
+                const SizedBox(height: 30),
+
+                /// Sign Up Text
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account? "),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => RegisterScreen()),
+                        );
+                      },
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Color(0xFF4A90E2),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Reusable TextField Widget
+  Widget _buildTextField({
+    required String hint,
+    bool obscure = false,
+    Widget? suffix,
+  }) {
+    return TextField(
+      obscureText: obscure,
+      decoration: InputDecoration(
+        hintText: hint,
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
+        suffixIcon: suffix,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+}
