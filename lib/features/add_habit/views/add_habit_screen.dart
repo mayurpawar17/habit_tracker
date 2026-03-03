@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/core/widgets/app_button.dart';
 import 'package:habit_tracker/core/widgets/common_app_bar.dart';
+import 'package:habit_tracker/features/home/views/home_screen.dart';
 
 import '../../habit/data/repo/habit_repo.dart';
 
@@ -159,8 +160,13 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             AppButton(
               onPressed: () {
                 final habitTitle = _habitTitleController.text.trim();
-                print('Habit : $habitTitle');
+                // print('Habit : $habitTitle');
                 habitService.addHabit(habitTitle);
+                Navigator.pop(context);
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (_) => HomeScreen()),
+                // );
               },
               label: 'Create Habit',
               backgroundColor: AppColors.primary,

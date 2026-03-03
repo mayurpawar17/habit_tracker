@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class HabitTile extends StatelessWidget {
   final String title;
   final IconData icon;
+  final bool isDone; // Track completion state
   final VoidCallback onTap;
-  final VoidCallback onDelete; // Added delete callback
+  final ValueChanged<bool?> onChanged; // Callback for the checkbox
   final Color color;
   final Color? backgroundColor;
 
@@ -13,7 +14,8 @@ class HabitTile extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onTap,
-    required this.onDelete,
+    required this.isDone,
+    required this.onChanged,
     this.color = Colors.red,
     this.backgroundColor,
   });
@@ -21,43 +23,39 @@ class HabitTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+      margin: const EdgeInsets.symmetric(vertical: 6),
       child: ListTile(
         onTap: onTap,
-        // Mimicking your exact Container decoration
-        tileColor: backgroundColor ?? color.withOpacity(0.05),
+        tileColor: backgroundColor ?? color.withOpacity(0.08),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        // Matching your 18px horizontal padding
-        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
 
+        // Leading Icon
         leading: Icon(icon, color: color),
 
+        // Habit Title
         title: Text(
           title,
           style: TextStyle(
             color: color,
             fontWeight: FontWeight.w600,
             fontSize: 16,
+            // Optional: Strike through text if habit is done
+            decoration: isDone ? TextDecoration.lineThrough : null,
           ),
         ),
 
-        // Trailing section with Delete and Arrow
-        trailing: Wrap(
-          spacing: 8, // Space between delete icon and arrow
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            IconButton(
-              onPressed: onDelete,
-              icon: const Icon(Icons.delete_outline),
-              color: Colors.redAccent,
-              visualDensity: VisualDensity.compact,
-            ),
-            // Icon(
-            //   Icons.arrow_forward_ios,
-            //   size: 16,
-            //   color: color.withOpacity(0.6),
-            // ),
-          ],
+        // Circular Checkbox
+        trailing: Transform.scale(
+          scale: 1.2, // Makes the checkbox slightly larger to match the UI
+          child: Checkbox(
+            value: isDone,
+            onChanged: onChanged,
+            activeColor: color,
+            checkColor: Colors.white,
+            shape: const CircleBorder(), // Makes the checkbox circular
+            side: BorderSide(color: color.withOpacity(0.4), width: 2),
+          ),
         ),
       ),
     );

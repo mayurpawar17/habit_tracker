@@ -27,41 +27,44 @@ class DashboardScreen extends StatelessWidget {
 
             final docs = snapshot.data!.docs;
 
-            return ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              itemCount: docs.length,
-              itemBuilder: (context, index) {
-                final data = docs[index];
-                final habit = Habit.fromMap(
-                  data.id,
-                  data.data() as Map<String, dynamic>,
-                );
+            return docs.isNotEmpty
+                ? ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
+                      final data = docs[index];
+                      final habit = Habit.fromMap(
+                        data.id,
+                        data.data() as Map<String, dynamic>,
+                      );
 
-                return HabitTile(
-                  title: habit.title,
-                  icon: Icons.task,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => HabitDetailScreen()),
-                    );
-                  },
-                  onDelete: () {
-                    habitService.deleteHabit(habit.id);
-                  },
-                );
+                      return HabitTile(
+                        title: habit.title,
+                        icon: Icons.task,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => HabitDetailScreen(habit: habit),
+                            ),
+                          );
+                        },
+                        isDone: habit.isDone,
+                        onChanged: (bool? value) {},
+                      );
 
-                // return ListTile(
-                //   title: Text(habit.title),
-                //   trailing: IconButton(
-                //     icon: Icon(Icons.delete),
-                //     onPressed: () {
-                //       habitService.deleteHabit(habit.id);
-                //     },
-                //   ),
-                // );
-              },
-            );
+                      // return ListTile(
+                      //   title: Text(habit.title),
+                      //   trailing: IconButton(
+                      //     icon: Icon(Icons.delete),
+                      //     onPressed: () {
+                      //       habitService.deleteHabit(habit.id);
+                      //     },
+                      //   ),
+                      // );
+                    },
+                  )
+                : Center(child: Text("No Habits"));
           },
         ),
       ),

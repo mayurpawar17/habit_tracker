@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit_tracker/features/home/widgets/habit_tile.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../auth/presentaion/bloc/auth_bloc.dart';
-import '../../auth/presentaion/bloc/auth_event.dart';
+import '../../auth/data/repo/auth_repo.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key});
+
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -142,49 +142,14 @@ class ProfileScreen extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              ////////////////////////////////////////////////////////////
-              /// LOGOUT
-              ////////////////////////////////////////////////////////////
               HabitTile(
                 title: "Logout",
                 icon: Icons.logout,
                 onTap: () {
-                  context.read<AuthBloc>().add(LogoutRequested());
+                  _authService.logout();
                 },
-                onDelete: () {},
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 18,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF1F1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Row(
-                      children: [
-                        Icon(Icons.logout, color: Colors.red),
-                        SizedBox(width: 12),
-                        Text(
-                          "Log Out",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: Colors.redAccent,
-                    ),
-                  ],
-                ),
+                isDone: false,
+                onChanged: (bool? value) {},
               ),
 
               const SizedBox(height: 30),

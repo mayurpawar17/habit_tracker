@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     DashboardScreen(),
     // AddHabitLightScreen(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
 
   @override
