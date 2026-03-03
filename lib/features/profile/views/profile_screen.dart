@@ -151,6 +151,7 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () {
                   context.read<AuthBloc>().add(LogoutRequested());
                 },
+                onDelete: () {},
               ),
               Container(
                 padding: const EdgeInsets.symmetric(

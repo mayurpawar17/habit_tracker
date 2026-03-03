@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/core/utils/app_snackbar.dart';
 import 'package:habit_tracker/features/auth/presentaion/screens/register_screen.dart';
 
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../home/views/home_screen.dart';
+import '../../data/repo/auth_repo.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +18,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _obscurePassword = true;
+  final AuthService _authService = AuthService();
+  bool isLoading = false;
+
+  Future<void> _loginUser() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      AppSnackbar.error(context, "Please enter email and password");
+      // _showMessage("Please enter email and password");
+      return;
+    }
+
+    try {
+      setState(() => isLoading = true);
+
+      final user = await _authService.login(email: email, password: password);
+
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen()),
+        );
+      }
+    } catch (e) {
+      AppSnackbar.error(context, e.toString());
+      // _showMessage(e.toString());
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,13 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 /// Login Button
                 AppButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => HomeScreen()),
-                    );
-                  },
-                  label: 'Login',
+                  onPressed: isLoading ? null : _loginUser,
+                  label: isLoading ? 'Loading...' : 'Login',
                 ),
                 const SizedBox(height: 30),
 

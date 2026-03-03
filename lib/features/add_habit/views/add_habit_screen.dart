@@ -3,6 +3,8 @@ import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/core/widgets/app_button.dart';
 import 'package:habit_tracker/core/widgets/common_app_bar.dart';
 
+import '../../habit/data/repo/habit_repo.dart';
+
 class AddHabitScreen extends StatefulWidget {
   const AddHabitScreen({super.key});
 
@@ -11,7 +13,7 @@ class AddHabitScreen extends StatefulWidget {
 }
 
 class _AddHabitScreenState extends State<AddHabitScreen> {
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _habitTitleController = TextEditingController();
   String selectedCategory = "Health";
   Color selectedColor = Colors.cyan;
   IconData selectedIcon = Icons.fitness_center;
@@ -26,6 +28,8 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     Colors.purpleAccent,
     Colors.blueGrey,
   ];
+
+  final habitService = HabitService();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             ),
             const SizedBox(height: 10),
             TextField(
-              controller: _nameController,
+              controller: _habitTitleController,
               decoration: InputDecoration(
                 hintText: "e.g., Morning Meditation",
                 filled: true,
@@ -68,18 +72,18 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               children: categories
                   .map(
                     (cat) => ChoiceChip(
-                  label: Text(cat),
-                  selected: selectedCategory == cat,
-                  onSelected: (val) =>
-                      setState(() => selectedCategory = cat),
-                  selectedColor: Colors.cyan,
-                  labelStyle: TextStyle(
-                    color: selectedCategory == cat
-                        ? Colors.white
-                        : Colors.black54,
-                  ),
-                ),
-              )
+                      label: Text(cat),
+                      selected: selectedCategory == cat,
+                      onSelected: (val) =>
+                          setState(() => selectedCategory = cat),
+                      selectedColor: Colors.cyan,
+                      labelStyle: TextStyle(
+                        color: selectedCategory == cat
+                            ? Colors.white
+                            : Colors.black54,
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
 
@@ -97,7 +101,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                         items: ["Daily", "Weekly"]
                             .map(
                               (e) => DropdownMenuItem(value: e, child: Text(e)),
-                        )
+                            )
                             .toList(),
                         onChanged: (v) {},
                       ),
@@ -153,7 +157,11 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
 
             // Your Custom AppButton
             AppButton(
-              onPressed: () {},
+              onPressed: () {
+                final habitTitle = _habitTitleController.text.trim();
+                print('Habit : $habitTitle');
+                habitService.addHabit(habitTitle);
+              },
               label: 'Create Habit',
               backgroundColor: AppColors.primary,
             ),
