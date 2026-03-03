@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/features/add_habit/views/add_habit_screen.dart';
+import 'package:habit_tracker/features/add_habit/views/habit_details_screen.dart';
 import 'package:habit_tracker/features/habit/data/model/habit_model.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -39,7 +40,12 @@ class DashboardScreen extends StatelessWidget {
                 return HabitTile(
                   title: habit.title,
                   icon: Icons.task,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => HabitDetailScreen()),
+                    );
+                  },
                   onDelete: () {
                     habitService.deleteHabit(habit.id);
                   },

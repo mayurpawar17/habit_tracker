@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/features/home/views/dashboard_screen.dart';
+import 'package:habit_tracker/features/home/views/home_screen.dart';
 import 'package:habit_tracker/features/onboarding/views/welcome_screen.dart';
 
 import 'core/theme/app_theme.dart';
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       title: 'Habit Tracker',
-      home: const WelcomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
