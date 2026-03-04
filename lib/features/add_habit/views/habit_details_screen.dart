@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/core/utils/app_dialog.dart';
 import 'package:habit_tracker/core/widgets/common_app_bar.dart';
 import 'package:habit_tracker/features/habit/data/model/habit_model.dart';
 
@@ -35,12 +36,22 @@ class HabitDetailScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              showDeleteDialog(context, () {
-                // Put your actual delete logic here
-                habitService.deleteHabit(habit!.id);
-                AppSnackbar.success(context, "Habit deleted successfully");
-                Navigator.pop(context);
-              });
+              AppDialog.showConfirmationDialog(
+                context: context,
+                title: 'Delete Habit',
+                content:
+                    'Start the day with 10 minutes of mindfulness to reduce stress and improve focus for the upcoming classes and work tasks. Use the Breath app or sit in silence.',
+                onConfirm: () {
+                  habitService.deleteHabit(habit!.id);
+                },
+              );
+
+              // showDeleteDialog(context, () {
+              //   // Put your actual delete logic here
+              //   // habitService.deleteHabit(habit!.id);
+              //   AppSnackbar.success(context, "Habit deleted successfully");
+              //   Navigator.pop(context);
+              // });
 
               // habitService.deleteHabit(habit!.id);
               // Navigator.pushReplacement(

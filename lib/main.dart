@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/features/auth/presentaion/screens/login_screen.dart';
-import 'package:habit_tracker/features/home/views/dashboard_screen.dart';
-import 'package:habit_tracker/features/home/views/home_screen.dart';
-import 'package:habit_tracker/features/onboarding/views/welcome_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_tracker/auth_gate.dart';
+import 'package:habit_tracker/features/auth/presentaion/bloc/auth_bloc.dart';
+import 'package:habit_tracker/features/auth/presentaion/bloc/auth_event.dart';
 
 import 'core/theme/app_theme.dart';
 import 'firebase_options.dart';
@@ -19,11 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      title: 'Habit Tracker',
-      home: LoginScreen(),
+    return BlocProvider<AuthBloc>(
+      create: (context) => AuthBloc()..add(CheckAuthStatus()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        title: 'Habit Tracker',
+        home: AuthGate(),
+      ),
     );
   }
 }

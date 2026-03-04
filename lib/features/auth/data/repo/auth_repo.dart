@@ -41,6 +41,8 @@ class AuthService {
         'createdAt': Timestamp.now(),
         'isPremium': false,
       });
+
+      await _auth.signOut();
       return result.user;
     } on FirebaseAuthException catch (e) {
       throw _handleAuthError(e);
