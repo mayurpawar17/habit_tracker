@@ -153,7 +153,10 @@ class ProfileScreen extends StatelessWidget {
                   AppDialog.showConfirmationDialog(
                     context: context,
                     title: 'Logout',
-                    content: 'Logout',
+                    content: 'Are you sure? \ndo you want to Logout',
+                    confirmText: 'Yes',
+                    cancelText: 'No',
+                    confirmColor: Colors.green,
                     onConfirm: () {
                       context.read<AuthBloc>().add(LogoutRequested());
                     },

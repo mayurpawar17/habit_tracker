@@ -22,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
           stream: habitService.getHabits(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
 
             final docs = snapshot.data!.docs;

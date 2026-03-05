@@ -43,6 +43,7 @@ class HabitDetailScreen extends StatelessWidget {
                     'Start the day with 10 minutes of mindfulness to reduce stress and improve focus for the upcoming classes and work tasks. Use the Breath app or sit in silence.',
                 onConfirm: () {
                   habitService.deleteHabit(habit!.id);
+                  Navigator.pop(context);
                 },
               );
 
