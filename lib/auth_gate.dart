@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_tracker/core/widgets/app_loader.dart';
 
 import 'features/auth/presentaion/bloc/auth_bloc.dart';
 import 'features/auth/presentaion/bloc/auth_state.dart';
@@ -15,7 +16,7 @@ class AuthGate extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthLoading) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(child: AppLoader()),
           );
         }
 
