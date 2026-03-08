@@ -1,70 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
 import 'package:habit_tracker/features/add_habit/views/add_habit_screen.dart';
 import 'package:habit_tracker/features/add_habit/views/habit_details_screen.dart';
-import 'package:habit_tracker/features/habit/data/model/habit_model.dart';
+import 'package:habit_tracker/features/habit/bloc/habit_bloc.dart';
+import 'package:habit_tracker/features/habit/bloc/habit_event.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import '../../habit/data/repo/habit_repo.dart';
+import '../../habit/bloc/habit_state.dart';
 import '../widgets/habit_tile.dart';
 
-class DashboardScreen extends StatelessWidget {
-  DashboardScreen({super.key});
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
-  final habitService = HabitService();
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HabitBloc>().add(LoadHabits());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightBackground,
       body: SafeArea(
-        child: StreamBuilder(
-          stream: habitService.getHabits(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            }
+        child: BlocBuilder<HabitBloc, HabitState>(
+          builder: (context, state) {
+            // if (state is HabitLoading) {
+            //   return const Center(child: CircularProgressIndicator());
+            // }
 
-            final docs = snapshot.data!.docs;
+            final habits = state.habits;
 
-            return docs.isNotEmpty
-                ? ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: docs.length,
-                    itemBuilder: (context, index) {
-                      final data = docs[index];
-                      final habit = Habit.fromMap(
-                        data.id,
-                        data.data() as Map<String, dynamic>,
-                      );
+            // if (habits.isEmpty) {
+            //   return const Center(child: Text("No Habits"));
+            // }
 
-                      return HabitTile(
-                        title: habit.title,
-                        icon: Icons.task,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => HabitDetailScreen(habit: habit),
-                            ),
-                          );
-                        },
-                        isDone: habit.isDone,
-                        onChanged: (bool? value) {},
-                      );
+            return ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              itemCount: habits.length,
+              itemBuilder: (context, index) {
+                final habit = habits[index];
 
-                      // return ListTile(
-                      //   title: Text(habit.title),
-                      //   trailing: IconButton(
-                      //     icon: Icon(Icons.delete),
-                      //     onPressed: () {
-                      //       habitService.deleteHabit(habit.id);
-                      //     },
-                      //   ),
-                      // );
-                    },
-                  )
-                : Center(child: Text("No Habits"));
+                print(habit);
+                // final habit = Habit.fromMap(
+                //   data.id,
+                //   data.data() as Map<String, dynamic>,
+                // );
+
+                return HabitTile(
+                  title: habit.title,
+                  icon: Icons.task,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => HabitDetailScreen(habit: habit),
+                      ),
+                    );
+                  },
+                  isDone: habit.isDone,
+                  onChanged: (bool? value) {},
+                );
+
+                // return ListTile(
+                //   title: Text(habit.title),
+                //   trailing: IconButton(
+                //     icon: Icon(Icons.delete),
+                //     onPressed: () {
+                //       habitService.deleteHabit(habit.id);
+                //     },
+                //   ),
+                // );
+              },
+            );
           },
         ),
       ),

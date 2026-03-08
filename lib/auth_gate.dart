@@ -15,9 +15,7 @@ class AuthGate extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthLoading) {
-          return const Scaffold(
-            body: Center(child: AppLoader()),
-          );
+          return const Scaffold(body: Center(child: AppLoader()));
         }
 
         if (state is Authenticated) {

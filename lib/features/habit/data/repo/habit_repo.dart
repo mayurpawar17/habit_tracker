@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habit_tracker/features/habit/data/model/habit_model.dart';
 
 class HabitService {
   final _db = FirebaseFirestore.instance;
@@ -21,8 +22,12 @@ class HabitService {
   }
 
   // 📖 READ (Stream)
-  Stream<QuerySnapshot> getHabits() {
-    return _habitRef.orderBy('createdAt').snapshots();
+  Future<List<Habit>> getHabits() async {
+    final snapshot = await _habitRef.orderBy('createdAt').get();
+
+    return snapshot.docs
+        .map((doc) => Habit.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+        .toList();
   }
 
   // ✏️ UPDATE

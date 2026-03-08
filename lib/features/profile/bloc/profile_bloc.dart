@@ -7,7 +7,7 @@ import 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository repository;
 
-  ProfileBloc(this.repository) : super(ProfileInitial()) {
+  ProfileBloc(this.repository) : super(ProfileState()) {
     on<LoadProfile>(_onLoadProfile);
   }
 
@@ -16,13 +16,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     Emitter<ProfileState> emit,
   ) async {
     try {
-      emit(ProfileLoading());
-
       final data = await repository.getUserProfile();
 
-      emit(ProfileLoaded(name: data['name'], email: data['email']));
+      emit(state.copyWith(name: data['name'], email: data['email']));
     } catch (e) {
-      emit(ProfileError("Failed to load profile"));
+      emit(state.copyWith(error: "Failed to load profile"));
     }
   }
 }

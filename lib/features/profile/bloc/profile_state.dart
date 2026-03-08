@@ -1,32 +1,25 @@
 import 'package:equatable/equatable.dart';
 
-abstract class ProfileState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+class ProfileState extends Equatable {
+  final String? name;
+  final String? email;
+  final String? error;
 
-class ProfileInitial extends ProfileState {}
+  const ProfileState({this.name, this.email, this.error});
 
-class ProfileLoading extends ProfileState {}
-
-class ProfileLoaded extends ProfileState {
-  final String name;
-  final String email;
-
-  ProfileLoaded({
-    required this.name,
-    required this.email,
-  });
-
-  @override
-  List<Object?> get props => [name, email];
-}
-
-class ProfileError extends ProfileState {
-  final String message;
-
-  ProfileError(this.message);
+  ProfileState copyWith({
+    bool? isLoading,
+    String? name,
+    String? email,
+    String? error,
+  }) {
+    return ProfileState(
+      name: name ?? this.name,
+      email: email ?? this.email,
+      error: error ?? this.error,
+    );
+  }
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [name, email, error];
 }

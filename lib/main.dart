@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/auth_gate.dart';
 import 'package:habit_tracker/features/auth/presentaion/bloc/auth_bloc.dart';
 import 'package:habit_tracker/features/auth/presentaion/bloc/auth_event.dart';
+import 'package:habit_tracker/features/habit/bloc/habit_bloc.dart';
+import 'package:habit_tracker/features/habit/data/repo/habit_repo.dart';
 
 import 'core/theme/app_theme.dart';
 import 'firebase_options.dart';
@@ -19,8 +21,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc()..add(CheckAuthStatus()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => AuthBloc()..add(CheckAuthStatus())),
+        BlocProvider(create: (_) => HabitBloc(HabitService())),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,

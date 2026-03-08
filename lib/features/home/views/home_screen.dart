@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
-import 'package:habit_tracker/features/add_habit/views/add_habit_screen.dart'
-    hide AppColors;
+import 'package:habit_tracker/features/habit/bloc/habit_bloc.dart';
+import 'package:habit_tracker/features/habit/data/repo/habit_repo.dart';
 import 'package:habit_tracker/features/home/views/dashboard_screen.dart';
-import 'package:habit_tracker/features/home/views/home_screen.dart';
 import 'package:habit_tracker/features/profile/views/profile_screen.dart';
 import 'package:hugeicons/hugeicons.dart';
 

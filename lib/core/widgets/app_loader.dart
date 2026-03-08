@@ -4,13 +4,18 @@ class AppLoader extends StatefulWidget {
   final double size;
   final Color color;
 
-  const AppLoader({super.key, this.size = 50.0, this.color = Colors.blueAccent});
+  const AppLoader({
+    super.key,
+    this.size = 50.0,
+    this.color = Colors.blueAccent,
+  });
 
   @override
   State<AppLoader> createState() => _AppLoaderState();
 }
 
-class _AppLoaderState extends State<AppLoader> with SingleTickerProviderStateMixin {
+class _AppLoaderState extends State<AppLoader>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
