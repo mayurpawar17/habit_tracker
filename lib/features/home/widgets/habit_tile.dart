@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/core/theme/app_colors.dart';
 
 class HabitTile extends StatelessWidget {
   final String title;
@@ -16,7 +17,7 @@ class HabitTile extends StatelessWidget {
     required this.onTap,
     required this.isDone,
     required this.onChanged,
-    this.color = Colors.red,
+    this.color = Colors.grey,
     this.backgroundColor,
   });
 
@@ -31,13 +32,13 @@ class HabitTile extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
 
         // Leading Icon
-        leading: Icon(icon, color: color),
+        leading: Icon(icon, color: AppColors.primary),
 
         // Habit Title
         title: Text(
           title,
           style: TextStyle(
-            color: color,
+            color: Colors.black,
             fontWeight: FontWeight.w600,
             fontSize: 16,
             // Optional: Strike through text if habit is done
@@ -51,9 +52,10 @@ class HabitTile extends StatelessWidget {
           child: Checkbox(
             value: isDone,
             onChanged: onChanged,
-            activeColor: color,
+            activeColor: AppColors.primary,
             checkColor: Colors.white,
-            shape: const CircleBorder(), // Makes the checkbox circular
+            shape: const CircleBorder(),
+            // Makes the checkbox circular
             side: BorderSide(color: color.withOpacity(0.4), width: 2),
           ),
         ),

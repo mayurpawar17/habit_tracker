@@ -12,7 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<CheckAuthStatus>((event, emit) {
       final user = _repository.currentUser;
       if (user != null) {
-        emit(Authenticated(user));
+        emit(Authenticated(user: user));
       } else {
         emit(Unauthenticated());
       }
@@ -27,7 +27,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
 
         if (user != null) {
-          emit(Authenticated(user));
+          final profile = await _repository.getUserProfile();
+
+          final name = profile?['name'];
+          final email = profile?['email'];
+          emit(Authenticated(user: user, name: name));
         }
       } catch (e) {
         emit(AuthError(e.toString()));

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _db = FirebaseFirestore.instance;
+
   // Get current user
   User? get currentUser => _auth.currentUser;
 
@@ -75,5 +76,13 @@ class AuthService {
       default:
         return 'Authentication failed';
     }
+  }
+
+  Future<Map<String, dynamic>?> getUserProfile() async {
+    if (currentUser == null) return null;
+
+    final doc = await _db.collection('users').doc(currentUser?.uid).get();
+
+    return doc.data();
   }
 }
