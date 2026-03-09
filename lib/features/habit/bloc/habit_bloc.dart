@@ -10,6 +10,14 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   HabitBloc(this.habitService) : super(HabitState()) {
     on<LoadHabits>(_onLoadHabits);
     on<AddHabit>(_addHabit);
+    on<ToggleHabit>(_toggleHabit);
+  }
+  Future<void> _toggleHabit(ToggleHabit event, Emitter<HabitState> emit) async {
+    await habitService.updateHabitStatus(event.habitId, event.isDone);
+
+    final habits = await habitService.getHabits();
+
+    emit(state.copyWith(habits: habits));
   }
 
   Future<void> _onLoadHabits(LoadHabits event, Emitter<HabitState> emit) async {

@@ -39,4 +39,8 @@ class HabitService {
   Future<void> deleteHabit(String id) async {
     await _habitRef.doc(id).delete();
   }
+
+  Future<void> updateHabitStatus(String habitId, bool isDone) async {
+    await _habitRef.doc(habitId).update({"isDone": isDone});
+  }
 }

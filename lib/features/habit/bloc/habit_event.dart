@@ -15,3 +15,10 @@ class AddHabit extends HabitEvent {
   @override
   List<Object?> get props => [title];
 }
+
+class ToggleHabit extends HabitEvent {
+  final String habitId;
+  final bool isDone;
+
+  ToggleHabit({required this.habitId, required this.isDone});
+}

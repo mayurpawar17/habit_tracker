@@ -65,7 +65,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     );
                   },
                   isDone: habit.isDone,
-                  onChanged: (bool? value) {},
+                  onChanged: (bool? value) {
+                    print("Habit ID: ${habit.id}");
+                    context.read<HabitBloc>().add(
+                      ToggleHabit(habitId: habit.id, isDone: value ?? false),
+                    );
+                  },
                 );
 
                 // return ListTile(
