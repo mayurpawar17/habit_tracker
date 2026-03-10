@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:habit_tracker/core/utils/app_dialog.dart';
 import 'package:habit_tracker/features/auth/presentaion/bloc/auth_event.dart';
 import 'package:habit_tracker/features/auth/presentaion/bloc/auth_state.dart';
-import 'package:habit_tracker/features/home/widgets/habit_tile.dart';
+import 'package:habit_tracker/features/home/views/habit_flow_ui.dart';
+import 'package:habit_tracker/features/profile/views/widgets/profile_tile.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../auth/data/repo/auth_repo.dart';
@@ -157,7 +158,7 @@ class ProfileScreen extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              HabitTile(
+              ProfileTile(
                 title: "Logout",
                 icon: Icons.logout,
                 onTap: () {
@@ -178,6 +179,16 @@ class ProfileScreen extends StatelessWidget {
                 onChanged: (bool? value) {},
               ),
 
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => HabitFlowUI()),
+                  );
+                },
+                child: Text("Habit New UI"),
+              ),
               const SizedBox(height: 30),
             ],
           ),

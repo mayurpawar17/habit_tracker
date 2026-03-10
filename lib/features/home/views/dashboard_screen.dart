@@ -1,3 +1,4 @@
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
@@ -41,48 +42,59 @@ class _DashboardScreenState extends State<DashboardScreen> {
             //   return const Center(child: Text("No Habits"));
             // }
 
-            return ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              itemCount: habits.length,
-              itemBuilder: (context, index) {
-                final habit = habits[index];
+            return Column(
+              children: [
+                _buildCalendarTimeline(),
+                SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: habits.length,
+                    itemBuilder: (context, index) {
+                      final habit = habits[index];
 
-                print(habit);
-                // final habit = Habit.fromMap(
-                //   data.id,
-                //   data.data() as Map<String, dynamic>,
-                // );
+                      print(habit);
+                      // final habit = Habit.fromMap(
+                      //   data.id,
+                      //   data.data() as Map<String, dynamic>,
+                      // );
 
-                return HabitTile(
-                  title: habit.title,
-                  icon: Icons.task,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => HabitDetailScreen(habit: habit),
-                      ),
-                    );
-                  },
-                  isDone: habit.isDone,
-                  onChanged: (bool? value) {
-                    print("Habit ID: ${habit.id}");
-                    context.read<HabitBloc>().add(
-                      ToggleHabit(habitId: habit.id, isDone: value ?? false),
-                    );
-                  },
-                );
+                      return HabitTile(
+                        title: habit.title,
+                        icon: Icons.task,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => HabitDetailScreen(habit: habit),
+                            ),
+                          );
+                        },
+                        isDone: habit.isDone,
+                        onChanged: (bool? value) {
+                          print("Habit ID: ${habit.id}");
+                          context.read<HabitBloc>().add(
+                            ToggleHabit(
+                              habitId: habit.id,
+                              isDone: value ?? false,
+                            ),
+                          );
+                        },
+                      );
 
-                // return ListTile(
-                //   title: Text(habit.title),
-                //   trailing: IconButton(
-                //     icon: Icon(Icons.delete),
-                //     onPressed: () {
-                //       habitService.deleteHabit(habit.id);
-                //     },
-                //   ),
-                // );
-              },
+                      // return ListTile(
+                      //   title: Text(habit.title),
+                      //   trailing: IconButton(
+                      //     icon: Icon(Icons.delete),
+                      //     onPressed: () {
+                      //       habitService.deleteHabit(habit.id);
+                      //     },
+                      //   ),
+                      // );
+                    },
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -103,6 +115,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Widget _buildCalendarTimeline() {
+    return EasyDateTimeLine(
+      initialDate: DateTime(2026, 3, 14),
+      onDateChange: (selectedDate) {},
+      headerProps: const EasyHeaderProps(
+        showMonthPicker: false,
+        selectedDateStyle: TextStyle(color: Colors.transparent),
+      ),
+      dayProps: const EasyDayProps(
+        height: 80,
+        width: 60,
+        dayStructure: DayStructure.dayStrDayNum,
+        activeDayStyle: DayStyle(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            color: Color(0xFF1D2235), // Dark background for active day
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          dayNumStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          dayStrStyle: TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        inactiveDayStyle: DayStyle(
+          dayNumStyle: TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          dayStrStyle: TextStyle(color: Colors.grey, fontSize: 12),
+        ),
+      ),
     );
   }
 }

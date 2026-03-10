@@ -13,7 +13,7 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
     on<ToggleHabit>(_toggleHabit);
   }
   Future<void> _toggleHabit(ToggleHabit event, Emitter<HabitState> emit) async {
-    await habitService.updateHabitStatus(event.habitId, event.isDone);
+    await habitService.markHabitDone(event.habitId, event.isDone);
 
     final habits = await habitService.getHabits();
 
