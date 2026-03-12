@@ -10,10 +10,15 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   HabitBloc(this.habitService) : super(HabitState()) {
     on<LoadHabits>(_onLoadHabits);
     on<AddHabit>(_addHabit);
+    on<CreateHabit>(_onCreateHabit);
     on<ToggleHabit>(_toggleHabit);
   }
+
   Future<void> _toggleHabit(ToggleHabit event, Emitter<HabitState> emit) async {
-    await habitService.markHabitDone(event.habitId, event.isDone);
+    await habitService.toggleHabit(
+      habitId: event.habitId,
+      isDone: event.isDone,
+    );
 
     final habits = await habitService.getHabits();
 
@@ -24,8 +29,10 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
     try {
       // emit(HabitLoading());
 
-      final habits = await habitService.getHabits(); // fetch once
-
+      final habits = await habitService.getHabitsForDate(
+        event.date,
+      ); // fetch once
+      print("HabitBloc : ${habits.toString()}");
       emit(state.copyWith(habits: habits));
     } catch (e) {
       // emit(HabitError("Failed to load habits"));
@@ -33,9 +40,32 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   }
 
   Future<void> _addHabit(AddHabit event, Emitter<HabitState> emit) async {
-    await habitService.addHabit(event.title);
+    // await habitService.addHabit(event.title);
+    //
+    // final habits = await habitService.getHabits();
+    // emit(state.copyWith(habits: habits));
+  }
 
-    final habits = await habitService.getHabits();
-    emit(state.copyWith(habits: habits));
+  Future<void> _onCreateHabit(
+    CreateHabit event,
+    Emitter<HabitState> emit,
+  ) async {
+    try {
+      // 1. Use the data from the event.habit object
+      await habitService.createHabit(
+        title: event.habit.title,
+        goal: event.habit.goal,
+        frequency: event.habit.frequency,
+        // Pass other fields if your service supports them
+      );
+
+      // 2. Refresh the list so the UI updates
+      final habits = await habitService.getHabits();
+      print("All Habits :  $habits");
+      emit(state.copyWith(habits: habits));
+    } catch (e) {
+      // Optional: emit an error state here
+      print("Error creating habit: $e");
+    }
   }
 }

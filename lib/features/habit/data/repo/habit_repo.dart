@@ -12,23 +12,122 @@ class HabitService {
   CollectionReference get _habitRef =>
       _db.collection('users').doc(uid).collection('habits');
 
+  // Future<void> createHabit(Habit habit) async {
+  //   await _habitRef.add(habit.toMap());
+  // }
+
   // ➕ ADD
-  Future<void> addHabit(String title) async {
-    await _habitRef.add({
-      'title': title,
-      'isDone': false,
-      'streak': 0,
-      'createdAt': Timestamp.now(),
-    });
+  // Future<void> addHabit(String title) async {
+  //   await _habitRef.add({
+  //     'title': title,
+  //     'isDone': false,
+  //     'streak': 0,
+  //     'createdAt': Timestamp.now(),
+  //   });
+  // }
+
+  Future<void> createHabit({
+    required String title,
+    required int goal,
+    required String frequency,
+  }) async {
+    // final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('habits')
+        .add({
+          "title": title,
+          "goal": goal,
+          "frequency": frequency,
+          "streak": 0,
+          "createdAt": FieldValue.serverTimestamp(),
+        });
+  }
+
+  Future<List<Habit>> getHabits() async {
+    // final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('habits')
+        .get();
+
+    return snapshot.docs
+        .map((doc) => Habit.fromMap(doc.id, doc.data()))
+        .toList();
+  }
+
+  Future<void> toggleHabit({
+    required String habitId,
+    required bool isDone,
+  }) async {
+    // final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    final dateId = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('habits')
+        .doc(habitId)
+        .collection('logs')
+        .doc(dateId)
+        .set({
+          "isDone": isDone,
+          "progress": isDone ? 1 : 0,
+          "date": DateTime.now(),
+          "completedAt": isDone ? FieldValue.serverTimestamp() : null,
+        });
   }
 
   // 📖 READ (Stream)
-  Future<List<Habit>> getHabits() async {
-    final snapshot = await _habitRef.orderBy('createdAt').get();
+  // Future<List<Habit>> getHabits() async {
+  //   final snapshot = await _habitRef.orderBy('createdAt').get();
+  //
+  //   return snapshot.docs
+  //       .map((doc) => Habit.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+  //       .toList();
+  // }
 
-    return snapshot.docs
-        .map((doc) => Habit.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-        .toList();
+  Future<List<Habit>> getHabitsForDate(DateTime date) async {
+    // final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    final dateId = DateFormat('yyyy-MM-dd').format(date);
+
+    final snapshot = await _db
+        .collection('users')
+        .doc(uid)
+        .collection('habits')
+        .get();
+    print("Total habits found: ${snapshot.docs.length}");
+
+    List<Habit> habits = [];
+
+    for (var doc in snapshot.docs) {
+      print("Checking habit: ${doc.id}");
+      final log = await doc.reference.collection('logs').doc(dateId).get();
+      final logs = await doc.reference.collection('logs').get();
+
+      for (var l in logs.docs) {
+        print("Existing log ID: ${l.id}");
+      }
+
+      print("Log exists: ${log.exists}");
+
+      print("Log data: ${log.data()}");
+      habits.add(
+        Habit.fromMap(
+          doc.id,
+          doc.data(),
+          isDone: (log.data()?['isDone'] as bool?) ?? false,
+        ),
+      );
+    }
+
+    return habits;
   }
 
   // ✏️ UPDATE
@@ -45,7 +144,7 @@ class HabitService {
   //   await _habitRef.doc(habitId).update({"isDone": isDone});
   // }
 
-  Future<void> markHabitDone(String habitId, bool isDone) async {
+  Future<void> markHabitDone(String habitId, bool value) async {
     final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     await FirebaseFirestore.instance
@@ -55,6 +154,11 @@ class HabitService {
         .doc(habitId)
         .collection('logs')
         .doc(today)
-        .set({"date": today, "isDone": isDone});
+        .set({
+          "date": DateTime.now(),
+          "isDone": value,
+          "progress": value ? 1 : 0,
+          "completedAt": value ? FieldValue.serverTimestamp() : null,
+        });
   }
 }

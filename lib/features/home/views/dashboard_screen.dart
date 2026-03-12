@@ -6,6 +6,7 @@ import 'package:habit_tracker/features/add_habit/views/add_habit_screen.dart';
 import 'package:habit_tracker/features/add_habit/views/habit_details_screen.dart';
 import 'package:habit_tracker/features/habit/bloc/habit_bloc.dart';
 import 'package:habit_tracker/features/habit/bloc/habit_event.dart';
+import 'package:habit_tracker/features/habit/data/repo/habit_repo.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import '../../habit/bloc/habit_state.dart';
@@ -19,11 +20,15 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  DateTime selectedDate = DateTime.now();
+
   @override
   void initState() {
     super.initState();
-    context.read<HabitBloc>().add(LoadHabits());
+    context.read<HabitBloc>().add(LoadHabits(date: selectedDate));
   }
+
+  final habitrepo = HabitService();
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +125,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildCalendarTimeline() {
     return EasyDateTimeLine(
-      initialDate: DateTime(2026, 3, 14),
-      onDateChange: (selectedDate) {},
+      initialDate: selectedDate,
+      onDateChange: (date) {
+        habitrepo.getHabitsForDate(date);
+        print("asdfaf");
+        setState(() {
+          selectedDate = date;
+        });
+        context.read<HabitBloc>().add(LoadHabits(date: date));
+      },
       headerProps: const EasyHeaderProps(
         showMonthPicker: false,
         selectedDateStyle: TextStyle(color: Colors.transparent),
