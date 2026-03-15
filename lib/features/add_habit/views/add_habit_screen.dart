@@ -38,9 +38,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CommonAppBar(title: 'Add New Habit'),
-
+      appBar: CommonAppBar(title: "Create new habit"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -56,6 +54,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               ),
             ),
             const SizedBox(height: 10),
+
             TextField(
               controller: _habitTitleController,
               decoration: InputDecoration(
@@ -68,9 +67,9 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                 ),
               ),
             ),
-
             const SizedBox(height: 25),
             _sectionTitle("CATEGORY"),
+
             Wrap(
               spacing: 10,
               children: categories
@@ -90,7 +89,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                   )
                   .toList(),
             ),
-
             const SizedBox(height: 25),
             Row(
               children: [
@@ -198,23 +196,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               label: 'Create Habit',
               backgroundColor: AppColors.primary,
             ),
-            // SizedBox(
-            //   width: double.infinity,
-            //   height: 55,
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: Colors.cyan,
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(15),
-            //       ),
-            //     ),
-            //     onPressed: () {},
-            //     child: const Text(
-            //       "Create Habit",
-            //       style: TextStyle(fontSize: 18, color: Colors.white),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

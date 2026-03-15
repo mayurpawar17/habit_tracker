@@ -29,7 +29,7 @@ class AppButton extends StatelessWidget {
         foregroundColor: Colors.white,
         disabledBackgroundColor: backgroundColor.withOpacity(0.6),
         minimumSize: const Size(double.infinity, 52),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       child: isLoading
           ? const SizedBox(

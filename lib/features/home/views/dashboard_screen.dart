@@ -37,19 +37,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: SafeArea(
         child: BlocBuilder<HabitBloc, HabitState>(
           builder: (context, state) {
-            // if (state is HabitLoading) {
-            //   return const Center(child: CircularProgressIndicator());
-            // }
-
             final habits = state.habits;
-
-            // if (habits.isEmpty) {
-            //   return const Center(child: Text("No Habits"));
-            // }
-
             return Column(
               children: [
-                _buildCalendarTimeline(),
+                _buildCalendarTimeline(state),
                 SizedBox(height: 20),
                 Expanded(
                   child: ListView.builder(
@@ -58,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     itemBuilder: (context, index) {
                       final habit = habits[index];
 
-                      print(habit);
+                      // print(habit);
                       // final habit = Habit.fromMap(
                       //   data.id,
                       //   data.data() as Map<String, dynamic>,
@@ -86,16 +77,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           );
                         },
                       );
-
-                      // return ListTile(
-                      //   title: Text(habit.title),
-                      //   trailing: IconButton(
-                      //     icon: Icon(Icons.delete),
-                      //     onPressed: () {
-                      //       habitService.deleteHabit(habit.id);
-                      //     },
-                      //   ),
-                      // );
                     },
                   ),
                 ),
@@ -123,15 +104,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildCalendarTimeline() {
+  Widget _buildCalendarTimeline(HabitState state) {
     return EasyDateTimeLine(
-      initialDate: selectedDate,
+      initialDate: state.selectedDate ?? DateTime.now(),
       onDateChange: (date) {
-        habitrepo.getHabitsForDate(date);
-        print("asdfaf");
-        setState(() {
-          selectedDate = date;
-        });
+        print("selectedDate $selectedDate and onDateChangeDate $date");
+        // setState(() {
+        //   selectedDate = date;
+        // });
         context.read<HabitBloc>().add(LoadHabits(date: date));
       },
       headerProps: const EasyHeaderProps(

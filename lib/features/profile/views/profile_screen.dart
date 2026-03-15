@@ -96,12 +96,11 @@ class ProfileScreen extends StatelessWidget {
                 child: BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     if (state is Authenticated) {
-                      final user = state.user;
-                      print("hello");
+                      final user = state.userResponse;
                       return Column(
                         children: [
                           Text(
-                            state.name ?? "b",
+                            user?.name ?? "b",
                             style: GoogleFonts.poppins(
                               color: Colors.grey,
                               fontSize: 24,

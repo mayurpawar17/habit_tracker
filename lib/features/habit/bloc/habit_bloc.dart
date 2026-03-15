@@ -28,11 +28,12 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   Future<void> _onLoadHabits(LoadHabits event, Emitter<HabitState> emit) async {
     try {
       // emit(HabitLoading());
+      emit(state.copyWith(selectedDate: event.date));
 
       final habits = await habitService.getHabitsForDate(
         event.date,
       ); // fetch once
-      print("HabitBloc : ${habits.toString()}");
+      // print("HabitBloc : ${habits.toString()}");
       emit(state.copyWith(habits: habits));
     } catch (e) {
       // emit(HabitError("Failed to load habits"));

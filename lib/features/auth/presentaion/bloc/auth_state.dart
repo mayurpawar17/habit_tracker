@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habit_tracker/features/profile/data/models/user_response.dart';
 
 abstract class AuthState extends Equatable {}
 
@@ -15,12 +16,13 @@ class AuthLoading extends AuthState {
 
 class Authenticated extends AuthState {
   final User? user;
+  final UserResponse? userResponse;
   final String? name;
 
-  Authenticated({this.user, this.name});
+  Authenticated({this.userResponse, this.name, this.user});
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [userResponse, user];
 }
 
 class Unauthenticated extends AuthState {

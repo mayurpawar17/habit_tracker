@@ -27,11 +27,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
 
         if (user != null) {
-          final profile = await _repository.getUserProfile();
+          final userResponse = await _repository.getUserProfile();
 
-          final name = profile?['name'];
-          final email = profile?['email'];
-          emit(Authenticated(user: user, name: name));
+          final name = userResponse?.name;
+          final email = userResponse?.email;
+          emit(Authenticated(userResponse: userResponse, name: name));
         }
       } catch (e) {
         emit(AuthError(e.toString()));

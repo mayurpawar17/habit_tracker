@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habit_tracker/features/profile/data/models/user_response.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -7,6 +8,7 @@ class AuthService {
 
   // Get current user
   User? get currentUser => _auth.currentUser;
+  String? get uid => _auth.currentUser?.uid;
 
   // 🔐 LOGIN
   Future<User?> login({required String email, required String password}) async {
@@ -78,11 +80,25 @@ class AuthService {
     }
   }
 
-  Future<Map<String, dynamic>?> getUserProfile() async {
-    if (currentUser == null) return null;
+  Future<UserResponse?> getUserProfile() async {
+    try {
+      final doc = await _db.collection('users').doc(uid).get();
 
-    final doc = await _db.collection('users').doc(currentUser?.uid).get();
-
-    return doc.data();
+      if (doc.exists) {
+        return UserResponse.fromFirestore(doc.data()!);
+      }
+    } catch (e) {
+      print("Error fetching user: $e");
+    }
+    return null;
   }
+
+  //
+  // Future<Map<String, dynamic>?> getUserProfile() async {
+  //   if (currentUser == null) return null;
+  //
+  //   final doc = await _db.collection('users').doc(currentUser?.uid).get();
+  //
+  //   return doc.data();
+  // }
 }

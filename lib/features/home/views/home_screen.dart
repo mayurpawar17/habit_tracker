@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker/core/theme/app_colors.dart';
-import 'package:habit_tracker/features/habit/bloc/habit_bloc.dart';
-import 'package:habit_tracker/features/habit/data/repo/habit_repo.dart';
 import 'package:habit_tracker/features/home/views/dashboard_screen.dart';
+import 'package:habit_tracker/features/home/views/habit_heat_map.dart';
 import 'package:habit_tracker/features/profile/views/profile_screen.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -20,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     DashboardScreen(),
     // AddHabitLightScreen(),
+    HabitHeatMap(),
     ProfileScreen(),
   ];
 
@@ -48,14 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             label: 'Home',
           ),
-          // NavigationDestination(
-          //   icon: HugeIcon(icon: HugeIcons.strokeRoundedAdd01),
-          //   selectedIcon: HugeIcon(
-          //     icon: HugeIcons.strokeRoundedAdd01,
-          //     color: AppColors.primary,
-          //   ),
-          //   label: 'Add Habit',
-          // ),
+          NavigationDestination(
+            icon: HugeIcon(icon: HugeIcons.strokeRoundedAdd01),
+            selectedIcon: HugeIcon(
+              icon: HugeIcons.strokeRoundedAdd01,
+              color: AppColors.primary,
+            ),
+            label: 'Add Habit',
+          ),
           // const NavigationDestination(
           //   icon: HugeIcon(icon: HugeIcons.strokeRoundedStars),
           //   selectedIcon: HugeIcon(
